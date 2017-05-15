@@ -1,0 +1,26 @@
+*{
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url(/public/light_blue_mini_dots_on_blue.jpg);
+}
+h1{
+  width:300px;
+  margin: 20px auto;
+  text-align: center;
+  line-height: 100px;
+  color: #FFF;
+  font-size: 48px;
+  font-family:sans-serif;
+  background: #730505;
+  border: 10px solid #e6de10;
+  border-radius: 100%;
+}
+.ctrl-app{
+  text-align: center;
+}
+ul{
+  list-style-type: none;
+}
