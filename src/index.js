@@ -1,72 +1,25 @@
-var app=angular.module('toDoApp', []);
-app.controller('AppController', function ($http, $scope) {
+var app =angular.module('toDoApp', ['ngRoute','ng-token-auth','ipCookie']);
 
-  $scope.items=[];
-  $http.get('http://localhost:3000/items.json').then(
-    function (ok) {
-      $scope.items=ok.data;
-    }, function (err) {
-      console.log(err);
-    }
-  );
-
-
-  $scope.addItem=function(){
-    data={
-      content: $scope.content,
-    }
-    $http.post('http://localhost:3000/items.json',{item: data}).then(
-      function (ok) {
-        $scope.items.push(ok.data);
-        $scope.content="";
-      }, function (err) {
-        console.log(err);
-      }
-    )
-  }
-
-
-  $scope.changeDone=function(item){
-    data={
-      done: item.done
-  }
-  $http.put("http://localhost:3000/items/"+item.id+".json",{item: data}).then(
-    function (ok) {
-      item.done=ok.data.done;
-      // $scope.todo.check[item.id]=ok.data.done;
-    }, function (err) {
-      console.log(err);
-    }
-  )
-};
-
-$scope.deleteItem=function(id){
-  $http.delete("http://localhost:3000/items/"+id+".json").then(
-    function (ok) {
-      var i = $scope.items.findIndex(function(item) {
-      return id === item.id;
+app.config(
+  function ($authProvider,$routeProvider) {
+    $authProvider.configure({
+      apiUrl: 'http://localhost:3000'
     });
-    $scope.items.splice(i, 1);
-    }, function (err) {
-      console.log(err);
-    }
-  )
-}
-
-$scope.editContent=function(item){
-  data={
-    content: item.content
+  $routeProvider
+    .when('/', {
+      templateUrl: 'views/todos/todos.html',
+      controller: 'AppController'
+    }).when('/sign_up', {
+      templateUrl: 'views/user_sessions/register.html',
+      controller: 'loginController'
+    })
   }
-  $http.put("http://localhost:3000/items/"+item.id+".json",{item: data}).then(
-    function (ok) {
-      item.content=ok.data.content;
-      // $scope.todo.check[item.id]=ok.data.done;
-    }, function (err) {
-      console.log(err);
-    }
-  )
-}
+);
 
-
-
-});
+// .when('/sign_in', {
+//   templateUrl: 'views/user_sessions/new.html',
+//   controller: 'loginController'
+// }).when('/sign_out', {
+//   templateUrl: 'views/user_sessions/new.html',
+//   controller: 'loginController'
+// })

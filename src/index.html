@@ -20,28 +20,42 @@
 
 
   <body ng-app="toDoApp">
-    <h1>Todo List</h1>
-    <div ng-controller="AppController" class="ctrl-app">
-      <form ng-submit="addItem()" class="new-item">
-        <input type="text" ng-model="content" >
-        <button>Add new ToDo item</button>
-      </form>
-      <ul>
-        <li ng-repeat="item in items">
-            <input type="checkbox" name="done[item.id]" ng-model="item.done" ng-change="changeDone(item)" ng-show="editAreaShow" ng-checked="item.done">
-            <span ng-dblclick="editAreaShow=false" ng-init="editAreaShow=true" ng-show="editAreaShow">
-              {{item.content}}
-            </span>
-            <button type="button" ng-click="deleteItem(item.id)">Delete</button>
-            <form ng-submit="editContent(item); editAreaShow=true"  ng-show="!editAreaShow">
-              <input type="text" ng-model="item.content" placeholder="{{item.content}}"/>
-              <button>Save changes</button>
-            </form>
+      <nav class="clearfix">
+        <div class="container">
+          <h1><img src="/public/LOGO_TODOLIST_OK.png" alt="logo"></h1>
+          <div ng-controller="loginController">
+            <!-- ng-init="signedIn=false" -->
+            <button type="button" ng-click="logOutUser();showSignIn=false" ng-show="user.length!=0" >Sign Out</button>
+            <!-- ng-show="signedIn" -->
+            <button type="button" ng-click="showSignIn=true" ng-hide="showSignIn||user.length!=0" ng-init="showSignIn=false">Sign In</button>
+            <a ng-hide="user.length!=0" href="#!/sign_up"><button type="button">Sign Up</button></a>
+            <!-- ng-hide="showSignIn" -->
+            <!-- {{user.length==1}} -->
+            <form ng-submit="authenticationProcess()" role="form" ng-init="loginForm = {}" ng-show="user.length==0 && showSignIn">
+              <!-- ng-show="!signedIn && showSignIn" -->
+              <p>
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" value="" ng-model="loginForm.email" />
+              </p>
 
-        </li>
-      </ul>
-    </div>
+              <p>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" value="" ng-model="loginForm.password" />
+              </p>
+
+              <button type="submit">Submit</button>
+            </form>
+        </div>
+        </nav>
+
+        <div ng-view class="container"></div>
+      </div>
+
   </body>
+
+  <!-- <script src="/js/angular/angular.js"></script>
+  <script src="/js/angular-cookie/angular-cookie.js"></script>
+  <script src="/js/ng-token-auth/dist/ng-token-auth.js"></script> -->
 
   <!-- build:js({.tmp,src}) scripts/vendor.js -->
   <!-- bower:js -->

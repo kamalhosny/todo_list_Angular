@@ -1,0 +1,20 @@
+<div ng-controller="AppController" class="ctrl-app">
+  <form ng-submit="addItem()" class="new-item">
+    <input type="text" ng-model="content" >
+    <button>Add new ToDo item</button>
+  </form>
+  <ul>
+    <li ng-repeat="item in items">
+        <input type="checkbox" name="done[item.id]" ng-model="item.done" ng-change="changeDone(item)" ng-show="editAreaShow" ng-checked="item.done">
+        <span ng-dblclick="editAreaShow=false" ng-init="editAreaShow=true" ng-show="editAreaShow">
+          {{item.content}}
+        </span>
+        <button type="button" ng-click="deleteItem(item.id)">Delete</button>
+        <form ng-submit="editContent(item); editAreaShow=true"  ng-show="!editAreaShow">
+          <input type="text" ng-model="item.content" placeholder="{{item.content}}"/>
+          <button>Save changes</button>
+        </form>
+
+    </li>
+  </ul>
+</div>
